@@ -21,8 +21,8 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
-// const fs = require('fs');
-// const mnemonic = require('./secrets.json').mnemonic;
+const fs = require('fs');
+const mnemonic = require('./secrets.json').mnemonic;
 
 module.exports = {
     /**
@@ -69,10 +69,14 @@ module.exports = {
       // },
 
       kovan: {
-        provider: () => new HDWalletProvider(['8dd7404640b7f48e90967ad86e6402cfc39163cd391e32e07042f6f5c0a9639d'], 'https://kovan.infura.io/v3/87d3726deced4f5c8a3c2aed2368d742'),
-        networkCheckTimeout: 100000,
+        provider: () => new HDWalletProvider([mnemonic], 'https://kovan.infura.io/v3/87d3726deced4f5c8a3c2aed2368d742'),
         network_id: 42,
         gas: 5500000,
+
+        networkCheckTimeout: 500000,
+        confirmations: 10,
+        timeoutBlocks: 2000,
+        skipDryRun: true
       },
 
       // Useful for private networks
@@ -95,7 +99,7 @@ module.exports = {
         // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
         settings: {          // See the solidity docs for advice about optimization and evmVersion
          optimizer: {
-           enabled: true,
+           enabled: false,
            runs: 200
          },
          // evmVersion: "byzantium"
@@ -111,6 +115,14 @@ module.exports = {
   
     db: {
       enabled: false
-    }
+    },
+
+    api_keys: {
+      etherscan: 'NUI4AKYXNNAH5SC4ZWEJIVQDJWN7ZZTV2T'
+    },
+
+    plugins: [
+      'truffle-plugin-verify'
+    ]
   };
   
